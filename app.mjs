@@ -1,10 +1,7 @@
+import { clearCanvas, getHeight, getWidth, getRenderer } from './canvas.mjs'
 import getInputStatus from './input-status.mjs'
 
-const canvas = document.getElementById('canvas')
-canvas.width = document.body.clientWidth
-canvas.height = document.body.clientHeight
-
-const renderer = canvas.getContext('2d')
+const renderer = getRenderer()
 
 const velocity = 30
 
@@ -21,14 +18,7 @@ class Rectangle {
     this.fill = fill
   }
 
-  clear () {
-    // this.renderer.clearRect(this.clearPositionX, this.clearPositionY, this.width, this.height)
-    this.renderer.clearRect(0, 0, canvas.width, canvas.height)
-  }
-
   draw () {
-    this.clear()
-
     this.renderer.beginPath()
     this.renderer.fillStyle = this.fill
     this.renderer.fillRect(this.positionX, this.positionY, this.width, this.height)
@@ -45,7 +35,7 @@ class Rectangle {
   }
 
   queueMoveDown (amount) {
-    if (this.positionY + this.height + amount > canvas.height) {
+    if (this.positionY + this.height + amount > getHeight()) {
       return
     }
 
@@ -63,7 +53,7 @@ class Rectangle {
   }
 
   queueMoveRight (amount) {
-    if (this.positionX + this.width + amount > canvas.width) {
+    if (this.positionX + this.width + amount > getWidth()) {
       return
     }
 
@@ -75,11 +65,6 @@ class Rectangle {
 const rectangle = new Rectangle(renderer)
 
 rectangle.draw()
-
-window.addEventListener('resize', () => {
-  canvas.width = document.body.clientWidth
-  canvas.height = document.body.clientHeight
-})
 
 function step () {
   window.requestAnimationFrame(step)
@@ -109,6 +94,7 @@ function step () {
   }
 
   if (shouldDraw) {
+    clearCanvas()
     rectangle.draw()
   }
 }
