@@ -1,4 +1,6 @@
+import Background from './background.mjs'
 import { clearCanvas, getHeight, getWidth, getRenderer } from './canvas.mjs'
+import { calculateCollisionMatrix } from './collision-utilities.mjs'
 import getInputStatus from './input-status.mjs'
 
 const renderer = getRenderer()
@@ -95,6 +97,9 @@ function step () {
 
   if (shouldDraw) {
     clearCanvas()
+    // const background = new Background(renderer, getWidth(), getHeight())
+    // console.log(background.getCollisionMatrix())
+    // background.draw()
     rectangle.draw()
   }
 }
